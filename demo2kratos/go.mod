@@ -22,6 +22,7 @@ require (
 	github.com/go-playground/form/v4 v4.2.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
+	github.com/orzkratos/tracekratos v0.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/yyle88/done v1.0.25 // indirect
 	github.com/yyle88/must v0.0.21 // indirect
