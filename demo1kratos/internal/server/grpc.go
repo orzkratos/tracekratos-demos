@@ -7,8 +7,8 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	v1 "github.com/orzkratos/demokratos/demo1kratos/api/helloworld/v1"
 	"github.com/orzkratos/demokratos/demo1kratos/internal/conf"
+	"github.com/orzkratos/demokratos/demo1kratos/internal/pkg/traceinfo"
 	"github.com/orzkratos/demokratos/demo1kratos/internal/service"
-	"github.com/orzkratos/tracekratos"
 )
 
 // NewGRPCServer new a gRPC server.
@@ -16,8 +16,8 @@ func NewGRPCServer(c *conf.Server, greeter *service.GreeterService, logger log.L
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			recovery.Recovery(),
-			tracekratos.NewTraceMiddleware(tracekratos.NewConfig("TRACE_ID"), logger), //在请求逻辑执行前打印日志，显示请求参数和追踪信息
-			logging.Server(logger), //在请求逻辑执行后打印日志，显示执行结果的错误码和状态码
+			traceinfo.NewTraceMiddleware(logger), //在请求逻辑执行前打印日志，显示请求参数和追踪信息
+			logging.Server(logger),               //在请求逻辑执行后打印日志，显示执行结果的错误码和状态码
 		),
 	}
 	if c.Grpc.Network != "" {
