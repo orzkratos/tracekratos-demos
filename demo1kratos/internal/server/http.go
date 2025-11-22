@@ -41,9 +41,17 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, logger log.L
 }
 
 func NewTraceMiddleware(logger log.Logger) middleware.Middleware {
-	config := tracekratos.NewConfig("TRACE_ID")
-	config.NewTraceID = func(ctx context.Context) string {
-		return "TRACE-ID-" + strconv.FormatInt(time.Now().UnixNano(), 10) + "-" + uuid.New().String() + "-AAA"
-	}
+	// Demo tracekratos features using function options
+	// 演示 tracekratos 的功能选项
+	config := tracekratos.NewConfig("TRACE_ID",
+		tracekratos.WithLogLevel(log.LevelDebug),
+		tracekratos.WithLogReply(true),
+		tracekratos.WithNewTraceID(func(ctx context.Context) string {
+			return "TRACE-ID-" + strconv.FormatInt(time.Now().UnixNano(), 10) + "-" + uuid.New().String() + "-AAA"
+		}),
+		tracekratos.WithFormatArgs(func(req any) string {
+			return tracekratos.ExtractArgs(req)
+		}),
+	)
 	return tracekratos.NewTraceMiddleware(config, logger)
 }
